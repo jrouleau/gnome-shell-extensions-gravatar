@@ -92,6 +92,10 @@ gulp.task('watch', [
 });
 
 
+gulp.task('reset-prefs', shell.task([
+  'dconf reset -f /org/gnome/shell/extensions/gravatar/',
+]));
+
 gulp.task('uninstall', function () {
   return del.sync([
     install.local,
@@ -145,6 +149,7 @@ gulp.task('default', function () {
     '  install-link          Installs as symlink to build/ directory\n' +
     '  install-global        Installs the extension to\n' +
     '                        /usr/share/gnome-shell/extensions/\n' +
+    '  reset-prefs           Resets extension preferences\n' +
     '  uninstall             Uninstalls the extension\n'
   );
   /* eslint-esnable no-console, max-len */
