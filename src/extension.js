@@ -1,5 +1,12 @@
 'use strict';
 
+const ExtensionUtils = imports.misc.extensionUtils;
+
+const Extension = ExtensionUtils.getCurrentExtension();
+const { GravatarExtension } = Extension.imports.gravatarExtension;
+
+let extension;
+
 /* exported init */
 function init() {
   // Do nothing
@@ -7,10 +14,13 @@ function init() {
 
 /* exported enable */
 function enable() {
-  // Do nothing
+  extension = new GravatarExtension();
+  extension.enable();
 }
 
 /* exported disable */
 function disable() {
-  // Do nothing
+  extension.disable();
+
+  extension = null;
 }
