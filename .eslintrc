@@ -1,7 +1,6 @@
 {
   "globals": {
-    "imports": true,
-    "log": true
+    "imports": true
   },
   "ecmaFeatures": {
     "blockBindings": true,
