@@ -1,0 +1,5 @@
+<schemalist gettext-domain="gnome-shell-extension-gravatar">
+  <schema id="org.gnome.shell.extensions.gravatar" path="/org/gnome/shell/extensions/gravatar/">
+
+  </schema>
+</schemalist>
