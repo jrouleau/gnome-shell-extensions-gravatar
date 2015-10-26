@@ -1,0 +1,10 @@
+{
+  "version": "0.0.0",
+  "uuid": "gravatar@jr.rlabs.io",
+  "name": "Gravatar",
+  "description": "Synchronize Gnome Shell avatar with Gravatar.",
+  "url": "https://github.com/jrouleau/gnome-shell-extension-gravatar",
+  "shell-version": [
+    "3.18"
+  ]
+}
