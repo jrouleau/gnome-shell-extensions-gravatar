@@ -1,0 +1,7 @@
+.valid {
+  border-color: #00FF00
+}
+
+.invalid {
+  border-color: #FF0000
+}
