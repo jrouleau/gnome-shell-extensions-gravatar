@@ -31,6 +31,7 @@ const GravatarExtension = new Lang.Class({
     this.user = GLib.get_user_name();
     this.userManager = AccountsService.UserManager.get_default()
       .get_user(this.user);
+    this.userManagerLoop = null;
   },
 
   /*
