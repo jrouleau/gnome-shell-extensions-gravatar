@@ -5,6 +5,7 @@
 const ExtensionUtils = imports.misc.extensionUtils;
 
 const Extension = ExtensionUtils.getCurrentExtension();
+const Convenience = Extension.imports.lib.convenience;
 
 const VERBOSE = 2;
 const DEBUG = 3;
@@ -14,8 +15,9 @@ const ERROR = 6;
 const ASSERT = 7;
 
 function _shouldPrint(priority) {
-  // TODO: Make log level configurable
-  return priority >= this.VERBOSE;
+  let settings = Convenience.getSettings();
+  let logLevel = settings.get_enum('log-level');
+  return priority >= logLevel;
 }
 
 function _getPriorityStr(priority) {
