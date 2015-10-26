@@ -44,7 +44,9 @@ const GravatarExtension = new Lang.Class({
       this.fetchGravatarIcon();
       this.settings.connect('changed', function (settings, key) {
         log.d(this.TAG, 'Setting changed: ' + key);
-        this.fetchGravatarIcon();
+        if (key !== 'log-level') {
+          this.fetchGravatarIcon();
+        }
       }.bind(this));
     }.bind(this));
   },
