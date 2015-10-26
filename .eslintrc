@@ -170,6 +170,6 @@
     "wrap-regex": 2,
 
     "max-len": [1, 80, 2],
-    "no-bitwise": 2
+    "no-bitwise": 0
   }
 }
