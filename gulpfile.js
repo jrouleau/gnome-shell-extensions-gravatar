@@ -16,6 +16,7 @@ let metadata = require('./src/metadata.json');
 let src = {
   copy: [
     'src/**/*',
+    '!src/**/*~',
     '!src/schemas{,/**/*}',
     '!src/metadata.json',
   ],
