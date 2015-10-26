@@ -27,6 +27,7 @@ const GravatarExtension = new Lang.Class({
     this.TAG = this.__name__;
 
     this.settings = Convenience.getSettings();
+    this.settingsChangedHandler = null;
     this.tmpDir = '/tmp';
     this.user = GLib.get_user_name();
     this.userManager = AccountsService.UserManager.get_default()
@@ -42,20 +43,32 @@ const GravatarExtension = new Lang.Class({
   enable: function () {
     this.waitForUserManager(function () {
       this.fetchGravatarIcon();
-      this.settings.connect('changed', function (settings, key) {
-        log.d(this.TAG, 'Setting changed: ' + key);
-        if (key !== 'log-level') {
-          this.fetchGravatarIcon();
-        }
-      }.bind(this));
+      this.settingsChangedHandler = this.settings.connect(
+        'changed',
+        function (settings, key) {
+          log.d(this.TAG, 'Setting changed: ' + key);
+          if (key !== 'log-level') {
+            this.fetchGravatarIcon();
+          }
+        }.bind(this)
+      );
     }.bind(this));
   },
 
   disable: function () {
+    // Disconnect settings changed handler
+    if (this.settingsChangedHandler !== null) {
+      this.settings.disconnect(this.settingsChangedHandler);
+      this.settingsChangedHandler = null;
+    }
+
+    // Remove userManager initialization loop
     if (this.userManagerLoop !== null) {
       Mainloop.source_remove(this.userManagerLoop);
       this.userManagerLoop = null;
     }
+
+    // Abort httpSession
     if (this.httpSession) {
       this.httpSession.abort();
     }
