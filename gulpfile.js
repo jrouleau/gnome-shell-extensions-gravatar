@@ -10,6 +10,7 @@ let gulp = require('gulp');
 let shell = require('gulp-shell');
 let symlink = require('gulp-symlink');
 let replace = require('gulp-replace');
+let zip = require('gulp-zip');
 
 let metadata = require('./src/metadata.json');
 
@@ -44,9 +45,19 @@ let install = {
 };
 
 
+function isInt(value) {
+  if (isNaN(value)) {
+    return false;
+  }
+  var x = parseFloat(value);
+  return (x | 0) === x;
+}
+
+
 gulp.task('clean', function () {
   return del.sync([
-    'build/**/*',
+    'build/',
+    'dist/',
   ]);
 });
 
@@ -61,7 +72,7 @@ gulp.task('copy-lib', function () {
 });
 
 gulp.task('metadata', function () {
-  return gitRev.short(function (commit) {
+  return gitRev.tag(function (commit) {
     return gulp.src(src.metadata)
       .pipe(replace('{{VERSION}}', commit))
       .pipe(gulp.dest('build'));
@@ -130,6 +141,20 @@ gulp.task('install-global', [
   gulp.src([
     'build/**',
   ]).pipe(gulp.dest(install.global));
+});
+
+
+gulp.task('dist', [
+  'build',
+], function () {
+  return gitRev.tag(function (commit) {
+    let versionStr = isInt(commit) ? 'v' + commit : commit;
+    let zipFile = metadata.uuid + '-' + versionStr + '.zip';
+    return gulp.src([
+      'build/**/*',
+    ]).pipe(zip(zipFile))
+      .pipe(gulp.dest('dist'));
+  });
 });
 
 
