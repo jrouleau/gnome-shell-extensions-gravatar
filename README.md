@@ -28,6 +28,11 @@ npm install
 npm run install
 ```
 
+#### Uninstall
+```bash
+npm run uninstall
+```
+
 ## Settings
 All settings can be configured from the `gnome-tweak-tool` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontent/widget is preferred!**
 
