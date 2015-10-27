@@ -2,7 +2,7 @@
   "version": -1,
   "uuid": "gravatar@jr.rlabs.io",
   "name": "Gravatar",
-  "description": "Synchronize Gnome Shell avatar with Gravatar.",
+  "description": "Synchronize GNOME Shell user icon with Gravatar.",
   "url": "https://github.com/jrouleau/gnome-shell-extension-gravatar",
   "settings-schema": "org.gnome.shell.extensions.gravatar",
   "gettext-domain": "gnome-shell-extension-gravatar",
