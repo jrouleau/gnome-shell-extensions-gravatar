@@ -1,5 +1,10 @@
 /* global log */
 
+/*
+ * Inspired by the android Log util:
+ * http://developer.android.com/reference/android/util/Log.html
+ */
+
 'use strict';
 
 const ExtensionUtils = imports.misc.extensionUtils;
