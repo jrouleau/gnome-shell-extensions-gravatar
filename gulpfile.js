@@ -232,6 +232,18 @@ gulp.task('tag', function (cb) {
   );
 });
 
+gulp.task('push-tag', function (cb) {
+  exec(
+    'git push origin --tags',
+    function (error) {
+      if (error !== null) {
+        throw error;
+      }
+      cb();
+    }
+  );
+});
+
 gulp.task('dist', [
   'build',
 ], function (cb) {
@@ -249,6 +261,7 @@ gulp.task('dist', [
 gulp.task('release', [
   'bump',
   'tag',
+  'push-tag',
   'dist',
 ]);
 
