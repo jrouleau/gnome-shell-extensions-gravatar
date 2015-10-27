@@ -84,7 +84,6 @@ gulp.task('lint', function () {
 gulp.task('clean', function (cb) {
   return del([
     'build/',
-    'dist/',
   ], cb);
 });
 
