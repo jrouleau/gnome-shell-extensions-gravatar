@@ -1,5 +1,5 @@
 {
-  "version": "{{VERSION}}",
+  "version": -1,
   "uuid": "gravatar@jr.rlabs.io",
   "name": "Gravatar",
   "description": "Synchronize Gnome Shell avatar with Gravatar.",
