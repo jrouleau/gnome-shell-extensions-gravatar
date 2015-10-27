@@ -27,14 +27,12 @@ const GravatarExtension = new Lang.Class({
     this.TAG = this.__name__;
 
     this.settings = Convenience.getSettings();
-    this.settingsChangedHandler = null;
     this.tmpDir = '/tmp';
     this.user = GLib.get_user_name();
     this.userManager = AccountsService
       .UserManager
       .get_default()
       .get_user(this.user);
-    this.userManagerLoop = null;
   },
 
   /*
@@ -59,13 +57,13 @@ const GravatarExtension = new Lang.Class({
 
   disable: function () {
     // Disconnect settings changed handler
-    if (this.settingsChangedHandler !== null) {
+    if (this.settingsChangedHandler) {
       this.settings.disconnect(this.settingsChangedHandler);
       this.settingsChangedHandler = null;
     }
 
     // Remove userManager initialization loop
-    if (this.userManagerLoop !== null) {
+    if (this.userManagerLoop) {
       Mainloop.source_remove(this.userManagerLoop);
       this.userManagerLoop = null;
     }

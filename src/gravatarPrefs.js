@@ -26,7 +26,6 @@ const GravatarPrefs = new Lang.Class({
   _init: function () {
     this.TAG = this.__name__;
 
-    this.icon_size_scale_timeout = null;
     this.rtl = Gtk.Widget.get_default_direction() === Gtk.TextDirection.RTL;
     this.settings = Convenience.getSettings();
 
@@ -142,7 +141,7 @@ const GravatarPrefs = new Lang.Class({
 
     icon_size_scale_value_changed_cb: function (scale) {
       // Remove existing timeout
-      if (this.icon_size_scale_timeout !== null) {
+      if (this.icon_size_scale_timeout) {
         Mainloop.source_remove(this.icon_size_scale_timeout);
         this.icon_size_scale_timeout = null;
       }
