@@ -13,7 +13,7 @@
       <summary>Log Level</summary>
       <description>Only print log items greater than or equal to current log level.</description>
     </key>
-    <key name="gravatar-email" type="s">
+    <key name="email" type="s">
       <default>""</default>
       <summary>Email</summary>
       <description>Your Gravatar email address.</description>

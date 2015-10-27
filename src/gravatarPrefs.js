@@ -78,7 +78,7 @@ const GravatarPrefs = new Lang.Class({
 
     // email_entry
     let email_entry = this.builder.get_object('email_entry');
-    email_entry.set_text(this.settings.get_string('gravatar-email'));
+    email_entry.set_text(this.settings.get_string('email'));
 
     // icon_size_scale
     let icon_size_scale = this.builder.get_object('icon_size_scale');
@@ -114,10 +114,10 @@ const GravatarPrefs = new Lang.Class({
       style.remove_class('valid');
       if (
         isValidEmail(email) &&
-        email !== this.settings.get_string('gravatar-email')
+        email !== this.settings.get_string('email')
       ) {
-        log.d(this.TAG, 'Updating gravatar-email');
-        this.settings.set_string('gravatar-email', email);
+        log.d(this.TAG, 'Updating email');
+        this.settings.set_string('email', email);
       }
     },
 

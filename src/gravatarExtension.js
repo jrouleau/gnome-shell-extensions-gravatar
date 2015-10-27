@@ -106,7 +106,7 @@ const GravatarExtension = new Lang.Class({
   },
 
   getHash: function () {
-    let email = this.settings.get_string('gravatar-email').toLowerCase();
+    let email = this.settings.get_string('email').toLowerCase();
     if (!isValidEmail(email)) {
       log.e(this.TAG, 'Unable to validate email "' + email + '"');
       return null;
