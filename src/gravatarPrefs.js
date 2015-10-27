@@ -39,7 +39,7 @@ const GravatarPrefs = new Lang.Class({
     // GtkBuilder
     this.builder = new Gtk.Builder();
     this.builder.set_translation_domain(Extension.metadata['gettext-domain']);
-    this.builder.add_from_file(Extension.path + '/prefs.gtkbuilder');
+    this.builder.add_from_file(Extension.path + '/prefs.ui');
 
     // Widget
     this.widget = this.builder.get_object('prefs_notebook');
