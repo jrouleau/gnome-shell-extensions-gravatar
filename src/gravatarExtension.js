@@ -30,7 +30,9 @@ const GravatarExtension = new Lang.Class({
     this.settingsChangedHandler = null;
     this.tmpDir = '/tmp';
     this.user = GLib.get_user_name();
-    this.userManager = AccountsService.UserManager.get_default()
+    this.userManager = AccountsService
+      .UserManager
+      .get_default()
       .get_user(this.user);
     this.userManagerLoop = null;
   },
@@ -137,6 +139,7 @@ const GravatarExtension = new Lang.Class({
       );
       log.i(this.TAG, 'Downloading gravatar icon from ' + url);
       log.d(this.TAG, 'Saving to ' + icon.get_path());
+
       // initialize session
       if (!this.httpSession) {
         log.d(this.TAG, 'Creating new http session');

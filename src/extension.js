@@ -21,6 +21,5 @@ function enable() {
 /* exported disable */
 function disable() {
   extension.disable();
-
   extension = null;
 }
