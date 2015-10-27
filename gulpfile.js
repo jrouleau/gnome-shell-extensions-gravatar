@@ -9,6 +9,7 @@ let path = require('path');
 var runSequence = require('run-sequence');
 
 let gulp = require('gulp');
+let eslint = require('gulp-eslint');
 let jsonEditor = require('gulp-json-editor');
 let shell = require('gulp-shell');
 let symlink = require('gulp-symlink');
@@ -72,6 +73,15 @@ function getVersion(rawTag) {
   return v;
 }
 
+
+gulp.task('lint', function () {
+  return gulp.src([
+    '**/*.js',
+  ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
 
 gulp.task('clean', function (cb) {
   return del([
@@ -214,17 +224,24 @@ gulp.task('push', function (cb) {
 });
 
 gulp.task('dist', [
-  'build',
-], function () {
-  let zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
-  return gulp.src([
-    'build/**/*',
-  ])
-    .pipe(zip(zipFile))
-    .pipe(gulp.dest('dist'));
+  'lint',
+], function (cb) {
+  runSequence('build', function () {
+    let zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
+    let stream = gulp.src([
+      'build/**/*',
+    ])
+      .pipe(zip(zipFile))
+      .pipe(gulp.dest('dist'));
+
+    stream.on('error', cb);
+    stream.on('end', cb);
+  });
 });
 
-gulp.task('release', function (cb) {
+gulp.task('release', [
+  'lint',
+], function (cb) {
   runSequence(
     'require-clean-wd',
     'bump',
@@ -256,6 +273,7 @@ gulp.task('default', function () {
     '  reset-prefs           Resets extension preferences\n' +
     '\n' +
     'PACKAGE\n' +
+    '  lint                  Lint source files\n' +
     '  dist                  Builds and packages the extension\n' +
     '  release               Bumps/tags version and builds package\n'
   );
