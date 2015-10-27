@@ -11,7 +11,7 @@ const Soup = imports.gi.Soup;
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
 const log = Extension.imports.log;
-const utils = Extension.imports.utils;
+const { isValidEmail } = Extension.imports.utils.isValidEmail;
 const { md5 } = Extension.imports.lib.md5;
 
 /* exported GravatarExtension */
@@ -107,7 +107,7 @@ const GravatarExtension = new Lang.Class({
 
   getHash: function () {
     let email = this.settings.get_string('gravatar-email').toLowerCase();
-    if (!utils.isValidEmail(email)) {
+    if (!isValidEmail(email)) {
       log.e(this.TAG, 'Unable to validate email "' + email + '"');
       return null;
     }

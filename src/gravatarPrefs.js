@@ -9,7 +9,7 @@ const Mainloop = imports.mainloop;
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
 const log = Extension.imports.log;
-const utils = Extension.imports.utils;
+const { isValidEmail } = Extension.imports.utils.isValidEmail;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const ICON_SIZES = [ 96, 128, 192, 256 ];
@@ -114,7 +114,7 @@ const GravatarPrefs = new Lang.Class({
       let style = entry.get_style_context();
       style.remove_class('valid');
       if (
-        utils.isValidEmail(email) &&
+        isValidEmail(email) &&
         email !== this.settings.get_string('gravatar-email')
       ) {
         log.d(this.TAG, 'Updating gravatar-email');
@@ -126,7 +126,7 @@ const GravatarPrefs = new Lang.Class({
       // Validate email address
       let email = entry.get_text().trim();
       let style = entry.get_style_context();
-      if (utils.isValidEmail(email)) {
+      if (isValidEmail(email)) {
         style.remove_class('invalid');
         style.add_class('valid');
       } else {
