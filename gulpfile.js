@@ -1,10 +1,12 @@
 /* eslint-env node */
+/* eslint-disable no-sync */
 'use strict';
 
 let del = require('del');
-let exec = require('child_process').exec;
-let path = require('path');
+let execSync = require('child_process').execSync;
 let osenv = require('osenv');
+let path = require('path');
+var runSequence = require('run-sequence');
 
 let gulp = require('gulp');
 let jsonEditor = require('gulp-json-editor');
@@ -45,39 +47,37 @@ let install = {
 };
 
 
-function getVersion(cb) {
-  exec(
-    'git rev-parse --short HEAD',
-    function (error, stdout) {
-      if (error !== null) {
-        throw error;
-      }
-      let sha1 = stdout.replace(/\n$/, '');
-      exec(
-        'git describe --tags --exact-match ' + sha1,
-        function (error, stdout) { // eslint-disable-line no-shadow
-          if (error !== null) {
-            // No tag for commit
-            return cb(sha1);
-          }
-          let tag = stdout.replace(/\n$/, '');
-          let version = parseInt(tag.replace(/^v/, ''), 10);
-          if (isNaN(version)) {
-            throw new Error('Unable to parse version from tag: ' + tag);
-          }
-          return cb(version);
-        }
-      );
-    }
-  );
+function getVersion(rawTag) {
+  var sha1, tag;
+  sha1 = execSync(
+    'git rev-parse --short HEAD'
+  ).toString().replace(/\n$/, '');
+
+  try {
+    tag = execSync(
+      'git describe --tags --exact-match ' + sha1 + ' 2>/dev/null'
+    ).toString().replace(/\n$/, '');
+  } catch (e) {
+    return sha1;
+  }
+
+  if (rawTag) {
+    return tag;
+  }
+
+  let v = parseInt(tag.replace(/^v/, ''), 10);
+  if (isNaN(v)) {
+    throw new Error('Unable to parse version from tag: ' + tag);
+  }
+  return v;
 }
 
 
-gulp.task('clean', function () {
-  return del.sync([
+gulp.task('clean', function (cb) {
+  return del([
     'build/',
     'dist/',
-  ]);
+  ], cb);
 });
 
 gulp.task('copy', function () {
@@ -97,18 +97,15 @@ gulp.task('copy-license', function () {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('metadata', function (cb) {
-  getVersion(function (v) {
-    gulp.src(src.metadata)
-      .pipe(jsonEditor(function (json) {
-        json.version = v;
-        return json;
-      }, {
-        end_with_newline: true,
-      }))
-      .pipe(gulp.dest('build'));
-    cb();
-  });
+gulp.task('metadata', function () {
+  return gulp.src(src.metadata)
+    .pipe(jsonEditor(function (json) {
+      json.version = getVersion();
+      return json;
+    }, {
+      end_with_newline: true,
+    }))
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('schemas', shell.task([
@@ -117,14 +114,19 @@ gulp.task('schemas', shell.task([
 ]));
 
 
-gulp.task('build', [
-  'clean',
-  'metadata',
-  'schemas',
-  'copy',
-  'copy-lib',
-  'copy-license',
-]);
+gulp.task('build', function (cb) {
+  runSequence(
+    'clean',
+    [
+      'metadata',
+      'schemas',
+      'copy',
+      'copy-lib',
+      'copy-license',
+    ],
+    cb
+  );
+});
 
 gulp.task('watch', [
   'build',
@@ -140,13 +142,13 @@ gulp.task('reset-prefs', shell.task([
   'dconf reset -f /org/gnome/shell/extensions/gravatar/',
 ]));
 
-gulp.task('uninstall', function () {
-  return del.sync([
+gulp.task('uninstall', function (cb) {
+  del([
     install.local,
     install.global,
   ], {
     force: true,
-  });
+  }, cb);
 });
 
 gulp.task('install-link', [
@@ -164,107 +166,74 @@ gulp.task('install', [
   'build',
 ], function () {
   gulp.src([
-    'build/**',
+    'build/**/*',
   ])
     .pipe(gulp.dest(install.local));
 });
 
-gulp.task('install-global', [
-  'uninstall',
-  'build',
-], function () {
-  gulp.src([
-    'build/**',
-  ])
-    .pipe(gulp.dest(install.global));
-});
-
 
 gulp.task('require-clean-wd', function (cb) {
-  exec(
-    'git status --porcelain | wc -l',
-    function (error, stdout) {
-      if (error !== null) {
-        throw error;
-      }
-      if (parseInt(stdout, 10) !== 0) {
-        throw new Error(
-          'There are uncommited changes in the working directory. Aborting.'
-        );
-      }
-      cb();
-    }
-  );
+  let changes = execSync(
+    'git status --porcelain | wc -l'
+  ).toString().replace(/\n$/, '');
+
+  if (parseInt(changes, 10) !== 0) {
+    return cb(new Error(
+      'There are uncommited changes in the working directory. Aborting.'
+    ));
+  }
+  return cb();
 });
 
 gulp.task('bump', function (cb) {
-  gulp.src([
+  var v;
+  let stream = gulp.src([
     'package.json',
   ])
     .pipe(jsonEditor(function (json) {
       json.version++;
+      v = 'v' + json.version;
       return json;
     }, {
       end_with_newline: true,
     }))
     .pipe(gulp.dest('./'));
-  exec(
-    'git commit ./package.json -m "Bump package version"',
-    function (error) {
-      if (error !== null) {
-        throw error;
-      }
-      cb();
-    }
-  );
+
+  stream.on('error', cb);
+  stream.on('end', function () {
+    execSync('git commit ./package.json -m "Bump package version"');
+    execSync('git tag ' + v);
+    return cb();
+  });
 });
 
-gulp.task('tag', function (cb) {
-  let pkg = require('./package.json');
-  let version = 'v' + pkg.version;
-  exec(
-    'git tag ' + version,
-    function (error) {
-      if (error !== null) {
-        throw error;
-      }
-      cb();
-    }
-  );
-});
-
-gulp.task('push-tag', function (cb) {
-  exec(
-    'git push origin --tags',
-    function (error) {
-      if (error !== null) {
-        throw error;
-      }
-      cb();
-    }
-  );
+gulp.task('push', function (cb) {
+  execSync('git push origin');
+  execSync('git push origin --tags');
+  return cb();
 });
 
 gulp.task('dist', [
   'build',
-], function (cb) {
-  getVersion(function (v) {
-    let zipFile = metadata.uuid + '-' + v + '.zip';
-    gulp.src([
-      'build/**/*',
-    ])
-      .pipe(zip(zipFile))
-      .pipe(gulp.dest('dist'));
-    cb();
-  });
+], function () {
+  let zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
+  return gulp.src([
+    'build/**/*',
+  ])
+    .pipe(zip(zipFile))
+    .pipe(gulp.dest('dist'));
 });
 
-gulp.task('release', [
-  'bump',
-  'tag',
-  'push-tag',
-  'dist',
-]);
+gulp.task('release', function (cb) {
+  runSequence(
+    'require-clean-wd',
+    'bump',
+    'push',
+    'dist',
+    cb
+  );
+});
+
 
 gulp.task('default', function () {
   /* eslint-disable no-console, max-len */
@@ -274,16 +243,21 @@ gulp.task('default', function () {
     '\n' +
     'Commands\n' +
     '\n' +
+    'BUILD\n' +
     '  clean                 Cleans the build/ directory\n' +
     '  build                 Builds the extension\n' +
     '  watch                 Builds and watches the src/ directory for changes\n' +
+    '\n' +
+    'INSTALL\n' +
     '  install               Installs the extension to\n' +
     '                        ~/.local/share/gnome-shell/extensions/\n' +
     '  install-link          Installs as symlink to build/ directory\n' +
-    '  install-global        Installs the extension to\n' +
-    '                        /usr/share/gnome-shell/extensions/\n' +
+    '  uninstall             Uninstalls the extension\n' +
     '  reset-prefs           Resets extension preferences\n' +
-    '  uninstall             Uninstalls the extension\n'
+    '\n' +
+    'PACKAGE\n' +
+    '  dist                  Builds and packages the extension\n' +
+    '  release               Bumps/tags version and builds package\n'
   );
   /* eslint-esnable no-console, max-len */
 });
