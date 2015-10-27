@@ -85,7 +85,7 @@ const GravatarExtension = new Lang.Class({
       return;
     }
     log.d(this.TAG, 'Waiting for userManager to initialize...');
-    // This fixes an issue where this.userManager properties sometimes aren't
+    // This fixes an issue where sometimes this.userManager is not
     // initialized when the extension loads
     this.userManagerLoop = Mainloop.timeout_add_seconds(1, function () {
       if (this.userManager.get_icon_file() !== null) {
