@@ -75,9 +75,7 @@ function getVersion(rawTag) {
 
 
 gulp.task('lint', function () {
-  return gulp.src([
-    '**/*.js',
-  ])
+  return gulp.src([ '**/*.js' ])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -153,7 +151,7 @@ gulp.task('reset-prefs', shell.task([
 ]));
 
 gulp.task('uninstall', function (cb) {
-  del([
+  return del([
     install.local,
     install.global,
   ], {
@@ -165,9 +163,7 @@ gulp.task('install-link', [
   'uninstall',
   'build',
 ], function () {
-  gulp.src([
-    'build',
-  ])
+  return gulp.src([ 'build' ])
     .pipe(symlink(install.local));
 });
 
@@ -175,9 +171,7 @@ gulp.task('install', [
   'uninstall',
   'build',
 ], function () {
-  gulp.src([
-    'build/**/*',
-  ])
+  return gulp.src([ 'build/**/*' ])
     .pipe(gulp.dest(install.local));
 });
 
