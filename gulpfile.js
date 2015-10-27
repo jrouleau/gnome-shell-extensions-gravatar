@@ -204,7 +204,7 @@ gulp.task('bump', function (cb) {
 
   stream.on('error', cb);
   stream.on('end', function () {
-    execSync('git commit ./package.json -m "Bump package version"');
+    execSync('git commit ./package.json -m "Bump version"');
     execSync('git tag ' + v);
     return cb();
   });
