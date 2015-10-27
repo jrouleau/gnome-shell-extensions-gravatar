@@ -71,6 +71,12 @@ gulp.task('copy-lib', function () {
     .pipe(gulp.dest('build/lib'));
 });
 
+gulp.task('copy-license', function () {
+  return gulp.src([
+    'LICENSE',
+  ]).pipe(gulp.dest('build'));
+});
+
 gulp.task('metadata', function () {
   return gitRev.tag(function (commit) {
     return gulp.src(src.metadata)
@@ -91,6 +97,7 @@ gulp.task('build', [
   'schemas',
   'copy',
   'copy-lib',
+  'copy-license',
 ]);
 
 gulp.task('watch', [
