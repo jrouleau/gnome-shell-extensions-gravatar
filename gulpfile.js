@@ -7,7 +7,6 @@ let path = require('path');
 let osenv = require('osenv');
 
 let gulp = require('gulp');
-let eol = require('gulp-eol');
 let jsonEditor = require('gulp-json-editor');
 let shell = require('gulp-shell');
 let symlink = require('gulp-symlink');
@@ -104,8 +103,9 @@ gulp.task('metadata', function (cb) {
       .pipe(jsonEditor(function (json) {
         json.version = v;
         return json;
+      }, {
+        end_with_newline: true,
       }))
-      .pipe(eol())
       .pipe(gulp.dest('build'));
     cb();
   });
@@ -204,8 +204,9 @@ gulp.task('bump', function (cb) {
     .pipe(jsonEditor(function (json) {
       json.version++;
       return json;
+    }, {
+      end_with_newline: true,
     }))
-    .pipe(eol())
     .pipe(gulp.dest('./'));
   exec(
     'git commit ./package.json -m "Bump package version"',
