@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extension-gravatar">
-  <enum id="org.gnome.shell.extensions.gravatar.logLevel">
-    <value value="2" nick="VERBOSE"/>
-    <value value="3" nick="DEBUG"/>
-    <value value="4" nick="INFO"/>
-    <value value="5" nick="WARN"/>
-    <value value="6" nick="ERROR"/>
-    <value value="7" nick="ASSERT"/>
-  </enum>
   <schema id="org.gnome.shell.extensions.gravatar" path="/org/gnome/shell/extensions/gravatar/">
-    <key name="log-level" enum="org.gnome.shell.extensions.gravatar.logLevel">
-      <default>"INFO"</default>
-      <summary>Log Level</summary>
-      <description>Only print log items greater than or equal to current log level.</description>
+    <key name="debug" type="b">
+      <default>false</default>
+      <summary>Debug Mode</summary>
+      <description>Enable debug mode.</description>
     </key>
     <key name="email" type="s">
       <default>""</default>

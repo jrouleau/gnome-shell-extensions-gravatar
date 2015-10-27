@@ -244,6 +244,13 @@ gulp.task('release', [
   );
 });
 
+gulp.task('enable-debug', shell.task([
+  'dconf write /org/gnome/shell/extensions/gravatar/debug true',
+]));
+
+gulp.task('disable-debug', shell.task([
+  'dconf write /org/gnome/shell/extensions/gravatar/debug false',
+]));
 
 gulp.task('default', function () {
   /* eslint-disable no-console, max-len */
@@ -268,7 +275,11 @@ gulp.task('default', function () {
     'PACKAGE\n' +
     '  lint                  Lint source files\n' +
     '  dist                  Builds and packages the extension\n' +
-    '  release               Bumps/tags version and builds package\n'
+    '  release               Bumps/tags version and builds package\n' +
+    '\n' +
+    'DEBUG\n' +
+    '  enable-debug          Enables debug mode\n' +
+    '  disable-debug         Disables debug mode\n'
   );
   /* eslint-esnable no-console, max-len */
 });

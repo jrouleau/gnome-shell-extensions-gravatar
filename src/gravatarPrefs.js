@@ -8,8 +8,8 @@ const Mainloop = imports.mainloop;
 
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
-const log = Extension.imports.log;
 const { isValidEmail } = Extension.imports.utils.isValidEmail;
+const { log, debug } = Extension.imports.log;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const ICON_SIZES = [ 96, 128, 192, 256 ];
@@ -24,8 +24,6 @@ const GravatarPrefs = new Lang.Class({
    ***********************************************
    */
   _init: function () {
-    this.TAG = this.__name__;
-
     this.rtl = Gtk.Widget.get_default_direction() === Gtk.TextDirection.RTL;
     this.settings = Convenience.getSettings();
 
@@ -58,7 +56,7 @@ const GravatarPrefs = new Lang.Class({
             this.SignalHandler[handler].bind(this)
           );
         } else {
-          log.e(this.TAG, 'Unknown signal: ' + handler);
+          log('Unknown signal: ' + handler);
         }
       }.bind(this)
     );
@@ -70,12 +68,6 @@ const GravatarPrefs = new Lang.Class({
    ***********************************************
    */
   loadSettings: function () {
-    // debug_switch
-    let debug_switch = this.builder.get_object('debug_switch');
-    debug_switch.set_active(
-      this.settings.get_enum('log-level') === log.VERBOSE
-    );
-
     // email_entry
     let email_entry = this.builder.get_object('email_entry');
     email_entry.set_text(this.settings.get_string('email'));
@@ -97,16 +89,6 @@ const GravatarPrefs = new Lang.Class({
 
 
   SignalHandler: {
-    debug_switch_state_set_cb: function (sw, state) {
-      // Update debug mode
-      log.d(this.TAG, 'Updating log-level');
-      if (state) {
-        this.settings.set_enum('log-level', log.VERBOSE);
-      } else {
-        this.settings.set_enum('log-level', log.INFO);
-      }
-    },
-
     email_entry_activate_cb: function (entry) {
       // Update email address
       let email = entry.get_text().trim();
@@ -116,7 +98,7 @@ const GravatarPrefs = new Lang.Class({
         isValidEmail(email) &&
         email !== this.settings.get_string('email')
       ) {
-        log.d(this.TAG, 'Updating email');
+        debug('Updating email');
         this.settings.set_string('email', email);
       }
     },
@@ -154,7 +136,7 @@ const GravatarPrefs = new Lang.Class({
       this.icon_size_scale_timeout = Mainloop.timeout_add(
         SCALE_UPDATE_TIMEOUT,
         function () {
-          log.d(this.TAG, 'Updating icon-size');
+          debug('Updating icon-size');
           this.settings.set_int('icon-size', scale.get_value());
           this.icon_size_scale_timeout = null;
           return false;

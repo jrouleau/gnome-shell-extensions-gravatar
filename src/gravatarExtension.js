@@ -10,9 +10,9 @@ const Soup = imports.gi.Soup;
 
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
-const log = Extension.imports.log;
-const { isValidEmail } = Extension.imports.utils.isValidEmail;
 const { md5 } = Extension.imports.lib.md5;
+const { isValidEmail } = Extension.imports.utils.isValidEmail;
+const { log, debug } = Extension.imports.log;
 
 /* exported GravatarExtension */
 const GravatarExtension = new Lang.Class({
@@ -24,8 +24,6 @@ const GravatarExtension = new Lang.Class({
    ***********************************************
    */
   _init: function () {
-    this.TAG = this.__name__;
-
     this.settings = Convenience.getSettings();
     this.tmpDir = '/tmp';
     this.user = GLib.get_user_name();
@@ -46,8 +44,8 @@ const GravatarExtension = new Lang.Class({
       this.settingsChangedHandler = this.settings.connect(
         'changed',
         function (settings, key) {
-          log.d(this.TAG, 'Setting changed: ' + key);
-          if (key !== 'log-level') {
+          debug('Setting changed: ' + key);
+          if (key !== 'debug') {
             this.fetchGravatarIcon();
           }
         }.bind(this)
@@ -84,12 +82,12 @@ const GravatarExtension = new Lang.Class({
       cb();
       return;
     }
-    log.d(this.TAG, 'Waiting for userManager to initialize...');
+    debug('Waiting for userManager to initialize...');
     // This fixes an issue where sometimes this.userManager is not
     // initialized when the extension loads
     this.userManagerLoop = Mainloop.timeout_add_seconds(1, function () {
       if (this.userManager.get_icon_file() !== null) {
-        log.d(this.TAG, 'userManager initialized');
+        debug('userManager initialized');
         this.userManagerLoop = null;
         cb();
         // exit loop
@@ -108,16 +106,16 @@ const GravatarExtension = new Lang.Class({
   getHash: function () {
     let email = this.settings.get_string('email').toLowerCase();
     if (!isValidEmail(email)) {
-      log.e(this.TAG, 'Unable to validate email "' + email + '"');
+      log('Unable to validate email "' + email + '"');
       return null;
     }
-    log.d(this.TAG, 'Hashing "' + email + '"');
+    debug('Hashing "' + email + '"');
     return md5(email);
   },
 
   /* Set Icon */
   setIcon: function (icon) {
-    log.d(this.TAG, 'Setting icon for "' + this.user + '" to "' + icon + '"');
+    log('Setting icon for "' + this.user + '" to "' + icon + '"');
     this.userManager.set_icon_file(icon);
   },
 
@@ -135,12 +133,12 @@ const GravatarExtension = new Lang.Class({
       let icon = Gio.file_new_for_path(
         this.tmpDir + '/' + Date.now() + '_' + hash
       );
-      log.i(this.TAG, 'Downloading gravatar icon from ' + url);
-      log.d(this.TAG, 'Saving to ' + icon.get_path());
+      log('Downloading gravatar icon from ' + url);
+      debug('Saving to ' + icon.get_path());
 
       // initialize session
       if (!this.httpSession) {
-        log.d(this.TAG, 'Creating new http session');
+        debug('Creating new http session');
         this.httpSession = new Soup.Session();
       }
       this.httpSession.abort();
@@ -155,17 +153,17 @@ const GravatarExtension = new Lang.Class({
         fstream.close(null);
         switch (msg.status_code) {
         case 200:
-          log.i(this.TAG, 'Download successful');
+          log('Download successful');
           this.setIcon(icon.get_path());
           break;
         default:
-          log.w(this.TAG, 'Failed to download ' + url);
+          log('Failed to download ' + url);
         }
-        log.d(this.TAG, 'Deleting ' + icon.get_path());
+        debug('Deleting ' + icon.get_path());
         icon.delete(null);
       }.bind(this));
     } catch (e) {
-      log.e(this.TAG, e.message);
+      log(e.message);
     }
   },
 
