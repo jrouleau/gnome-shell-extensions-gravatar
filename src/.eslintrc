@@ -16,6 +16,7 @@
     "destructuring": true,
     "forOf": true,
     "generators": false,
+    "globalReturn": false,
     "modules": false,
     "objectLiteralComputedProperties": false,
     "objectLiteralDuplicateProperties": false,
