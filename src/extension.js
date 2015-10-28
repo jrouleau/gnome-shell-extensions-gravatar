@@ -70,16 +70,25 @@ const Extension = new Lang.Class({
   _waitForUser: function (cb) {
     // This fixes an issue where sometimes this._user is not
     // initialized when the extension loads
-    if (this._user.get_icon_file() !== null) {
+    if (this._user.isLoaded) {
       cb();
       return;
     }
     debug('Waiting for user to initialize...');
+    let loopCount = 0;
     this._userLoop = setInterval(function () {
-      debug('User initialized');
-      clearInterval(this._userLoop);
-      this._userLoop = null;
-      cb();
+      loopCount++;
+      if (this._user.isLoaded) {
+        debug('User initialized');
+        clearInterval(this._userLoop);
+        this._userLoop = null;
+        return cb();
+      }
+      if (loopCount >= 30) {
+        clearInterval(this._userLoop);
+        this._userLoop = null;
+        log('Timeout waiting for user to initialize');
+      }
     }.bind(this), 1000);
   },
 
