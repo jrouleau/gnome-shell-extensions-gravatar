@@ -10,6 +10,7 @@ var runSequence = require('run-sequence');
 
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
+var threshold = require('gulp-eslint-threshold');
 var jsonEditor = require('gulp-json-editor');
 var shell = require('gulp-shell');
 var symlink = require('gulp-symlink');
@@ -57,10 +58,17 @@ function getVersion(rawTag) {
 }
 
 gulp.task('lint', function () {
+  var thresholdWarnings = 1;
+  var thresholdErrors = 1;
   return gulp.src([ '**/*.js' ])
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+    .pipe(threshold.afterErrors(thresholdErrors, function (numberOfErrors) {
+      throw new Error('ESLint errors (' + numberOfErrors + ') equal to or greater than the threshold (' + thresholdErrors + ')');
+    }))
+    .pipe(threshold.afterWarnings(thresholdWarnings, function (numberOfWarnings) {
+      throw new Error('ESLint warnings (' + numberOfWarnings + ') equal to or greater than the threshold (' + thresholdWarnings + ')');
+    }));
 });
 
 gulp.task('clean', function (cb) {
