@@ -89,6 +89,10 @@ const Prefs = new Lang.Class({
       icon_size_scale.set_flippable(false);
       icon_size_scale.set_inverted(true);
     }
+
+    // version
+    let version = this._builder.get_object('version');
+    version.set_text(Me.metadata.version.toString());
   },
 
 
