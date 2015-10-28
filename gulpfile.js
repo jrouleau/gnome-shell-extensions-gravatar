@@ -17,47 +17,29 @@ let zip = require('gulp-zip');
 
 let metadata = require('./src/metadata.json');
 
-let src = {
-  copy: [
+let paths = {
+  src: [
     'src/**/*',
     '!src/**/*~',
     '!src/schemas{,/**/*}',
     '!src/metadata.json',
   ],
-  lib: [
-    'lib/**/*',
-  ],
-  metadata: [
-    'src/metadata.json',
-  ],
-  schemas: [
-    'src/schemas/**/*',
-  ],
-};
-
-let install = {
-  local: path.join(
+  lib: [ 'lib/**/*' ],
+  metadata: [ 'src/metadata.json' ],
+  schemas: [ 'src/schemas/**/*' ],
+  install: path.join(
     osenv.home(),
     '.local/share/gnome-shell/extensions',
     metadata.uuid
   ),
-  global: path.join(
-    '/usr/share/gnome-shell/extensions',
-    metadata.uuid
-  ),
 };
-
 
 function getVersion(rawTag) {
   var sha1, tag;
-  sha1 = execSync(
-    'git rev-parse --short HEAD'
-  ).toString().replace(/\n$/, '');
+  sha1 = execSync('git rev-parse --short HEAD').toString().replace(/\n$/, '');
 
   try {
-    tag = execSync(
-      'git describe --tags --exact-match ' + sha1 + ' 2>/dev/null'
-    ).toString().replace(/\n$/, '');
+    tag = execSync('git describe --tags --exact-match ' + sha1 + ' 2>/dev/null').toString().replace(/\n$/, '');
   } catch (e) {
     return sha1;
   }
@@ -73,7 +55,6 @@ function getVersion(rawTag) {
   return v;
 }
 
-
 gulp.task('lint', function () {
   return gulp.src([ '**/*.js' ])
     .pipe(eslint())
@@ -82,36 +63,30 @@ gulp.task('lint', function () {
 });
 
 gulp.task('clean', function (cb) {
-  return del([
-    'build/',
-  ], cb);
+  return del([ 'build/' ], cb);
 });
 
 gulp.task('copy', function () {
-  return gulp.src(src.copy)
+  return gulp.src(paths.src)
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('copy-lib', function () {
-  return gulp.src(src.lib)
+  return gulp.src(paths.lib)
     .pipe(gulp.dest('build/lib'));
 });
 
 gulp.task('copy-license', function () {
-  return gulp.src([
-    'LICENSE',
-  ])
+  return gulp.src([ 'LICENSE' ])
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('metadata', function () {
-  return gulp.src(src.metadata)
+  return gulp.src(paths.metadata)
     .pipe(jsonEditor(function (json) {
       json.version = getVersion();
       return json;
-    }, {
-      end_with_newline: true,
-    }))
+    }, { end_with_newline: true }))
     .pipe(gulp.dest('build'));
 });
 
@@ -119,7 +94,6 @@ gulp.task('schemas', shell.task([
   'mkdir -p build/schemas',
   'glib-compile-schemas --strict --targetdir build/schemas src/schemas/',
 ]));
-
 
 gulp.task('build', function (cb) {
   runSequence(
@@ -135,73 +109,48 @@ gulp.task('build', function (cb) {
   );
 });
 
-gulp.task('watch', [
-  'build',
-], function () {
-  gulp.watch(src.copy, [ 'copy' ]);
-  gulp.watch(src.lib, [ 'copy-lib' ]);
-  gulp.watch(src.metadata, [ 'metadata' ]);
-  gulp.watch(src.schemas, [ 'schemas' ]);
+gulp.task('watch', [ 'build' ], function () {
+  gulp.watch(paths.src, [ 'copy' ]);
+  gulp.watch(paths.lib, [ 'copy-lib' ]);
+  gulp.watch(paths.metadata, [ 'metadata' ]);
+  gulp.watch(paths.schemas, [ 'schemas' ]);
 });
-
 
 gulp.task('reset-prefs', shell.task([
   'dconf reset -f /org/gnome/shell/extensions/gravatar/',
 ]));
 
 gulp.task('uninstall', function (cb) {
-  return del([
-    install.local,
-    install.global,
-  ], {
-    force: true,
-  }, cb);
+  return del([ paths.install ], { force: true }, cb);
 });
 
-gulp.task('install-link', [
-  'uninstall',
-  'build',
-], function () {
+gulp.task('install-link', [ 'uninstall', 'build' ], function () {
   return gulp.src([ 'build' ])
-    .pipe(symlink(install.local));
+    .pipe(symlink(paths.install));
 });
 
-gulp.task('install', [
-  'uninstall',
-  'build',
-], function () {
+gulp.task('install', [ 'uninstall', 'build' ], function () {
   return gulp.src([ 'build/**/*' ])
-    .pipe(gulp.dest(install.local));
+    .pipe(gulp.dest(paths.install));
 });
-
 
 gulp.task('require-clean-wd', function (cb) {
-  let changes = execSync(
-    'git status --porcelain | wc -l'
-  ).toString().replace(/\n$/, '');
-
-  if (parseInt(changes, 10) !== 0) {
-    return cb(new Error(
-      'There are uncommited changes in the working directory. Aborting.'
-    ));
+  let count = execSync('git status --porcelain | wc -l').toString().replace(/\n$/, '');
+  if (parseInt(count, 10) !== 0) {
+    return cb(new Error('There are uncommited changes in the working directory. Aborting.'));
   }
   return cb();
 });
 
 gulp.task('bump', function (cb) {
-  var v;
-  let stream = gulp.src([
-    'package.json',
-  ])
+  let v;
+  let stream = gulp.src([ 'package.json' ])
     .pipe(jsonEditor(function (json) {
       json.version++;
       v = 'v' + json.version;
       return json;
-    }, {
-      end_with_newline: true,
-    }))
+    }, { end_with_newline: true }))
     .pipe(gulp.dest('./'));
-
   stream.on('error', cb);
   stream.on('end', function () {
     execSync('git commit ./package.json -m "Bump version"');
@@ -216,25 +165,18 @@ gulp.task('push', function (cb) {
   return cb();
 });
 
-gulp.task('dist', [
-  'lint',
-], function (cb) {
+gulp.task('dist', [ 'lint' ], function (cb) {
   runSequence('build', function () {
     let zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
-    let stream = gulp.src([
-      'build/**/*',
-    ])
+    let stream = gulp.src([ 'build/**/*' ])
       .pipe(zip(zipFile))
       .pipe(gulp.dest('dist'));
-
     stream.on('error', cb);
     stream.on('end', cb);
   });
 });
 
-gulp.task('release', [
-  'lint',
-], function (cb) {
+gulp.task('release', [ 'lint' ], function (cb) {
   runSequence(
     'require-clean-wd',
     'bump',
@@ -261,14 +203,14 @@ gulp.task('default', function () {
     'Commands\n' +
     '\n' +
     'BUILD\n' +
-    '  clean                 Cleans the build/ directory\n' +
+    '  clean                 Cleans the build directory\n' +
     '  build                 Builds the extension\n' +
-    '  watch                 Builds and watches the src/ directory for changes\n' +
+    '  watch                 Builds and watches the src directory for changes\n' +
     '\n' +
     'INSTALL\n' +
     '  install               Installs the extension to\n' +
     '                        ~/.local/share/gnome-shell/extensions/\n' +
-    '  install-link          Installs as symlink to build/ directory\n' +
+    '  install-link          Installs as symlink to build directory\n' +
     '  uninstall             Uninstalls the extension\n' +
     '  reset-prefs           Resets extension preferences\n' +
     '\n' +
