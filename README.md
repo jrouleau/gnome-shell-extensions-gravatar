@@ -11,9 +11,10 @@ A GNOME Shell extension to synchronize your user icon with Gravatar.
 
 ## Installation
 
-If you wish to install the extension manually, you will need the following tools:
+If you wish to build and install the extension manually, you will need the following tools:
 * `git`
-* `npm`
+* `npm` - Node Package Manager
+* `node` - Node.js
 * `glib-compile-schemas`
 * `dconf` _(optional)_
 
@@ -45,6 +46,7 @@ dconf write /org/gnome/shell/extensions/gravatar/email "'<EMAIL>'"
 
 #### Icon Size: _(default: `96`)_
 * **1 - 2048 pixel square** _(See: [gravatar.com](https://en.gravatar.com/site/implement/images/#size))_
+
 ```bash
 dconf write /org/gnome/shell/extensions/gravatar/icon-size <SIZE>
 ```
