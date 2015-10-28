@@ -2,17 +2,18 @@
 
 const ExtensionUtils = imports.misc.extensionUtils;
 
-const Extension = ExtensionUtils.getCurrentExtension();
-const Convenience = Extension.imports.lib.convenience;
+const Me = ExtensionUtils.getCurrentExtension();
+const Convenience = Me.imports.lib.convenience;
+
+let settings = Convenience.getSettings();
 
 /* exported log */
 function log(msg) {
-  global.log('[' + Extension.uuid + '] ' + msg);
+  global.log('[' + Me.uuid + '] ' + msg);
 }
 
 /* exported debug */
 function debug(msg) {
-  let settings = Convenience.getSettings();
   if (settings.get_boolean('debug')) {
     log('DEBUG: ' + msg);
   }
