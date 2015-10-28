@@ -1,5 +1,5 @@
 # Gravatar GNOME Shell Extension
-[![Build Status](https://travis-ci.org/jrouleau/gnome-shell-extension-gravatar.svg?branch=master)](https://travis-ci.org/jrouleau/gnome-shell-extension-gravatar)
+[![Build Status][travis-image]][travis-url] [![Dependency Status][deps-image]][deps-url]
 
 A GNOME Shell extension to synchronize your user icon with Gravatar.
 
@@ -56,3 +56,10 @@ Bugs should be reported via the [GitHub Issue Tracker](https://github.com/jroule
 
 ## License
 The MIT License (MIT)
+
+
+[travis-url]: https://travis-ci.org/jrouleau/gnome-shell-extension-gravatar
+[travis-image]: http://img.shields.io/travis/jrouleau/gnome-shell-extension-gravatar/master.svg
+
+[deps-url]: https://david-dm.org/jrouleau/gnome-shell-extension-gravatar
+[deps-image]: https://img.shields.io/david/dev/jrouleau/gnome-shell-extension-gravatar.svg
