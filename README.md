@@ -47,17 +47,6 @@ dconf write /org/gnome/shell/extensions/gravatar/email "'<EMAIL>'"
 dconf write /org/gnome/shell/extensions/gravatar/icon-size <SIZE>
 ```
 
-#### Log Level: _(default: `INFO`)_
-* **VERBOSE**
-* **DEBUG**
-* **INFO**
-* **WARN**
-* **ERROR**
-* **ASSERT**
-```bash
-dconf write /org/gnome/shell/extensions/gravatar/log-level "'<LEVEL>'"
-```
-
 ## Bug Reporting
 Bugs should be reported via the [GitHub Issue Tracker](https://github.com/jrouleau/gnome-shell-extension-gravatar/issues)
 
