@@ -2,27 +2,28 @@
 /* eslint-disable no-sync */
 'use strict';
 
-let del = require('del');
-let execSync = require('child_process').execSync;
-let osenv = require('osenv');
-let path = require('path');
+var del = require('del');
+var execSync = require('child_process').execSync;
+var osenv = require('osenv');
+var path = require('path');
 var runSequence = require('run-sequence');
 
-let gulp = require('gulp');
-let eslint = require('gulp-eslint');
-let jsonEditor = require('gulp-json-editor');
-let shell = require('gulp-shell');
-let symlink = require('gulp-symlink');
-let zip = require('gulp-zip');
+var gulp = require('gulp');
+var eslint = require('gulp-eslint');
+var jsonEditor = require('gulp-json-editor');
+var shell = require('gulp-shell');
+var symlink = require('gulp-symlink');
+var zip = require('gulp-zip');
 
-let metadata = require('./src/metadata.json');
+var metadata = require('./src/metadata.json');
 
-let paths = {
+var paths = {
   src: [
     'src/**/*',
     '!src/**/*~',
     '!src/schemas{,/**/*}',
     '!src/metadata.json',
+    '!src/.eslintrc',
   ],
   lib: [ 'lib/**/*' ],
   metadata: [ 'src/metadata.json' ],
@@ -48,7 +49,7 @@ function getVersion(rawTag) {
     return tag;
   }
 
-  let v = parseInt(tag.replace(/^v/, ''), 10);
+  var v = parseInt(tag.replace(/^v/, ''), 10);
   if (isNaN(v)) {
     throw new Error('Unable to parse version from tag: ' + tag);
   }
@@ -135,7 +136,7 @@ gulp.task('install', [ 'uninstall', 'build' ], function () {
 });
 
 gulp.task('require-clean-wd', function (cb) {
-  let count = execSync('git status --porcelain | wc -l').toString().replace(/\n$/, '');
+  var count = execSync('git status --porcelain | wc -l').toString().replace(/\n$/, '');
   if (parseInt(count, 10) !== 0) {
     return cb(new Error('There are uncommited changes in the working directory. Aborting.'));
   }
@@ -143,8 +144,8 @@ gulp.task('require-clean-wd', function (cb) {
 });
 
 gulp.task('bump', function (cb) {
-  let v;
-  let stream = gulp.src(paths.metadata)
+  var v;
+  var stream = gulp.src(paths.metadata)
     .pipe(jsonEditor(function (json) {
       json.version++;
       v = 'v' + json.version;
@@ -167,8 +168,8 @@ gulp.task('push', function (cb) {
 
 gulp.task('dist', [ 'lint' ], function (cb) {
   runSequence('build', function () {
-    let zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
-    let stream = gulp.src([ 'build/**/*' ])
+    var zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
+    var stream = gulp.src([ 'build/**/*' ])
       .pipe(zip(zipFile))
       .pipe(gulp.dest('dist'));
     stream.on('error', cb);
