@@ -11,8 +11,8 @@ const Soup = imports.gi.Soup;
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
 const { md5 } = Extension.imports.lib.md5;
+const { log, debug } = Extension.imports.utils.log;
 const { isValidEmail } = Extension.imports.utils.isValidEmail;
-const { log, debug } = Extension.imports.log;
 
 /* exported GravatarExtension */
 const GravatarExtension = new Lang.Class({

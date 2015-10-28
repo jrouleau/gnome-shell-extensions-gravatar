@@ -8,8 +8,8 @@ const Mainloop = imports.mainloop;
 
 const Extension = ExtensionUtils.getCurrentExtension();
 const Convenience = Extension.imports.lib.convenience;
+const { log, debug } = Extension.imports.utils.log;
 const { isValidEmail } = Extension.imports.utils.isValidEmail;
-const { log, debug } = Extension.imports.log;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const ICON_SIZES = [ 96, 128, 192, 256 ];
