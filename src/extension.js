@@ -27,8 +27,8 @@ const Extension = new Lang.Class({
     debug('initializing');
     this._settings = Convenience.getSettings();
     this._tmpDir = '/tmp';
-    this._user = GLib.get_user_name();
-    this._userManager = AccountsService.UserManager.get_default().get_user(this._user);
+    this._username = GLib.get_user_name();
+    this._user = AccountsService.UserManager.get_default().get_user(this._username);
   },
 
   /*
@@ -38,7 +38,7 @@ const Extension = new Lang.Class({
    */
   enable: function () {
     debug('enabling');
-    this._waitForUserManager(function () {
+    this._waitForUser(function () {
       this._changedId = this._settings.connect('changed', this._loadIcon.bind(this));
       this._loadIcon();
     }.bind(this));
@@ -51,9 +51,9 @@ const Extension = new Lang.Class({
       this._changedId = null;
     }
 
-    if (this._userManagerLoop) {
-      clearInterval(this._userManagerLoop);
-      this._userManagerLoop = null;
+    if (this._userLoop) {
+      clearInterval(this._userLoop);
+      this._userLoop = null;
     }
 
     if (this._httpSession) {
@@ -67,18 +67,18 @@ const Extension = new Lang.Class({
    * Private Methods                             *
    ***********************************************
    */
-  _waitForUserManager: function (cb) {
-    // This fixes an issue where sometimes this._userManager is not
+  _waitForUser: function (cb) {
+    // This fixes an issue where sometimes this._user is not
     // initialized when the extension loads
-    if (this._userManager.get_icon_file() !== null) {
+    if (this._user.get_icon_file() !== null) {
       cb();
       return;
     }
-    debug('Waiting for userManager to initialize...');
-    this._userManagerLoop = setInterval(function () {
-      debug('userManager initialized');
-      clearInterval(this._userManagerLoop);
-      this._userManagerLoop = null;
+    debug('Waiting for user to initialize...');
+    this._userLoop = setInterval(function () {
+      debug('User initialized');
+      clearInterval(this._userLoop);
+      this._userLoop = null;
       cb();
     }.bind(this), 1000);
   },
@@ -100,8 +100,8 @@ const Extension = new Lang.Class({
 
   /* Set Icon */
   _setIcon: function (icon) {
-    log('Setting icon for "' + this._user + '" to "' + icon + '"');
-    this._userManager.set_icon_file(icon);
+    log('Setting icon for "' + this._username + '" to "' + icon + '"');
+    this._user.set_icon_file(icon);
   },
 
   /* Download From Gravatar */
