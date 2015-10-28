@@ -44,7 +44,7 @@ All settings can be configured from the `gnome-tweak-tool` or `gnome-shell-exten
 dconf write /org/gnome/shell/extensions/gravatar/email "'<EMAIL>'"
 ```
 
-#### Icon Size: _(default: `96`)_
+#### Icon Size: _(default: `192`)_
 * **1 - 2048 pixel square** _(See: [gravatar.com](https://en.gravatar.com/site/implement/images/#size))_
 
 ```bash

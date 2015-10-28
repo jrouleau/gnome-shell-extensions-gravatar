@@ -12,7 +12,7 @@
       <description>Your Gravatar email address.</description>
     </key>
     <key name="icon-size" type="i">
-      <default>96</default>
+      <default>192</default>
       <summary>Icon Size</summary>
       <description>Size of icon to download from Gravatar.</description>
     </key>
