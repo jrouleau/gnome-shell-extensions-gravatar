@@ -9,10 +9,6 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.lib.convenience;
 const { log, debug } = Me.imports.utils.log;
 const { isValidEmail } = Me.imports.utils.isValidEmail;
-const { debounce } = Me.imports.utils.timing;
-
-const SCALE_UPDATE_DELAY = 500;
-const ICON_SIZES = [ 96, 128, 192, 256 ];
 
 
 const Prefs = new Lang.Class({
@@ -76,20 +72,6 @@ const Prefs = new Lang.Class({
     let email_entry = this._builder.get_object('email_entry');
     email_entry.set_text(this._settings.get_string('email'));
 
-    // icon_size_scale
-    let icon_size_scale = this._builder.get_object('icon_size_scale');
-    icon_size_scale.set_range(ICON_SIZES[0], ICON_SIZES[ICON_SIZES.length - 1]);
-    icon_size_scale.set_value(this._settings.get_int('icon-size'));
-    for (let i = 0, len = ICON_SIZES.length; i < len; i++) {
-      let val = ICON_SIZES[i];
-      icon_size_scale.add_mark(val, Gtk.PositionType.BOTTOM, val.toString());
-    }
-    if (this._rtl) {
-      icon_size_scale.set_value_pos(Gtk.PositionType.LEFT);
-      icon_size_scale.set_flippable(false);
-      icon_size_scale.set_inverted(true);
-    }
-
     // version
     let version = this._builder.get_object('version');
     version.set_text(Me.metadata.version.toString());
@@ -119,35 +101,6 @@ const Prefs = new Lang.Class({
         style.remove_class('valid');
         style.add_class('invalid');
       }
-    },
-
-    icon_size_scale_format_value_cb: function (scale, value) {
-      // Format scale value
-      return value + ' px';
-    },
-
-    icon_size_scale_value_changed_cb: debounce(function (scale) {
-      // Update icon size
-      if (this._icon_size_scale_button_pressed) {
-        return;
-      }
-      let size = scale.get_value();
-      if (size !== this._settings.get_int('icon-size')) {
-        debug('Updating icon-size');
-        this._settings.set_int('icon-size', size);
-      }
-    }, SCALE_UPDATE_DELAY),
-
-    icon_size_scale_button_press_event_cb: function () {
-      // Prevent updates while button/mouse is pressed
-      this._icon_size_scale_button_pressed = true;
-    },
-
-    icon_size_scale_button_release_event_cb: function (scale) {
-      // Allow updates when button/mouse is released
-      this._icon_size_scale_button_pressed = false;
-      // Ensure changed signal is fired when button/mouse is released;
-      this._SignalHandler.icon_size_scale_value_changed_cb.bind(this)(scale);
     },
   },
 

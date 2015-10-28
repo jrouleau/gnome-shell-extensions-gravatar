@@ -83,57 +83,6 @@
                     </child>
                   </object>
                 </child>
-                <child>
-                  <object class="GtkListBoxRow" id="icon_size_listboxrow">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="activatable">False</property>
-                    <property name="selectable">False</property>
-                    <child>
-                      <object class="GtkGrid" id="icon_size_grid">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="column_spacing">32</property>
-                        <child>
-                          <object class="GtkLabel" id="icon_size_label">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Icon Size</property>
-                            <property name="xalign">0</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkScale" id="icon_size_scale">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="valign">baseline</property>
-                            <property name="hexpand">True</property>
-                            <property name="adjustment">icon_size_adjustment</property>
-                            <property name="round_digits">0</property>
-                            <property name="digits">0</property>
-                            <property name="value_pos">right</property>
-                            <signal name="button-press-event" handler="icon_size_scale_button_press_event_cb" swapped="no"/>
-                            <signal name="button-release-event" handler="icon_size_scale_button_release_event_cb" swapped="no"/>
-                            <signal name="format-value" handler="icon_size_scale_format_value_cb" swapped="no"/>
-                            <signal name="value-changed" handler="icon_size_scale_value_changed_cb" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
               </object>
             </child>
             <child type="label_item">
