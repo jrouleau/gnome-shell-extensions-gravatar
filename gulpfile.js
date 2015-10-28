@@ -194,6 +194,13 @@ gulp.task('disable-debug', shell.task([
   'dconf write /org/gnome/shell/extensions/gravatar/debug false',
 ]));
 
+gulp.task('test', function (cb) {
+  runSequence(
+    'lint',
+    cb
+  );
+});
+
 gulp.task('default', function () {
   /* eslint-disable no-console, max-len */
   console.log(
@@ -201,6 +208,10 @@ gulp.task('default', function () {
     'Usage: gulp [COMMAND]\n' +
     '\n' +
     'Commands\n' +
+    '\n' +
+    'TEST\n' +
+    '  lint                  Lint source files\n' +
+    '  test                  Runs the test suite\n' +
     '\n' +
     'BUILD\n' +
     '  clean                 Cleans the build directory\n' +
@@ -215,7 +226,6 @@ gulp.task('default', function () {
     '  reset-prefs           Resets extension preferences\n' +
     '\n' +
     'PACKAGE\n' +
-    '  lint                  Lint source files\n' +
     '  dist                  Builds and packages the extension\n' +
     '  release               Bumps/tags version and builds package\n' +
     '\n' +

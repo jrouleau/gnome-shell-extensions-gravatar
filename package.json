@@ -14,6 +14,7 @@
   },
   "scripts": {
     "install": "gulp install",
-    "uninstall": "gulp uninstall"
+    "uninstall": "gulp uninstall",
+    "test": "gulp test"
   }
 }
