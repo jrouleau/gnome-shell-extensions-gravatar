@@ -144,16 +144,16 @@ gulp.task('require-clean-wd', function (cb) {
 
 gulp.task('bump', function (cb) {
   let v;
-  let stream = gulp.src([ 'package.json' ])
+  let stream = gulp.src(paths.metadata)
     .pipe(jsonEditor(function (json) {
       json.version++;
       v = 'v' + json.version;
       return json;
     }, { end_with_newline: true }))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('src'));
   stream.on('error', cb);
   stream.on('end', function () {
-    execSync('git commit ./package.json -m "Bump version"');
+    execSync('git commit src/metadata.json -m "Bump version"');
     execSync('git tag ' + v);
     return cb();
   });
