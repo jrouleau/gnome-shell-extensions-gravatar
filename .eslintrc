@@ -1,13 +1,31 @@
 {
+  "env": {
+    "es6": true
+  },
   "globals": {
     "global": true,
     "imports": true
   },
   "ecmaFeatures": {
+    "arrowFunctions": true,
+    "binaryLiterals": false,
     "blockBindings": true,
+    "classes": false,
+    "defaultParams": true,
+    "destructuring": true,
     "forOf": true,
-    "generators": true,
-    "destructuring": true
+    "generators": false,
+    "modules": false,
+    "objectLiteralComputedProperties": false,
+    "objectLiteralDuplicateProperties": false,
+    "objectLiteralShorthandMethods": false,
+    "objectLiteralShorthandProperties": false,
+    "octalLiterals": false,
+    "regexUFlag": false,
+    "regexYFlag": true,
+    "spread": false,
+    "superInFunctions": false,
+    "templateStrings": false
   },
   "rules": {
     "comma-dangle": [2, "always-multiline"],
@@ -62,7 +80,7 @@
     "no-floating-decimal": 2,
     "no-implicit-coercion": 2,
     "no-implied-eval": 2,
-    "no-invalid-this": 2,
+    "no-invalid-this": 0,
     "no-iterator": 2,
     "no-labels": 2,
     "no-lone-blocks": 2,
@@ -124,7 +142,7 @@
     "comma-spacing": [1, {"before": false, "after": true}],
     "comma-style": [1, "last"],
     "computed-property-spacing": [1, "never"],
-    "consistent-this": 2,
+    "consistent-this": 0,
     "eol-last": 1,
     "func-names": 0,
     "func-style": [2, "declaration"],
@@ -170,7 +188,7 @@
     "spaced-comment": [1, "always", {"exceptions": ["-", "="]}],
     "wrap-regex": 2,
 
-    "max-len": [1, 80, 2],
+    "max-len": 0,
     "no-bitwise": 0
   }
 }
