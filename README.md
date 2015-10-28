@@ -1,4 +1,6 @@
 # Gravatar GNOME Shell Extension
+[![Build Status](https://travis-ci.org/jrouleau/gnome-shell-extension-gravatar.svg?branch=master)](https://travis-ci.org/jrouleau/gnome-shell-extension-gravatar)
+
 A GNOME Shell extension to synchronize your user icon with Gravatar.
 
 ## Prerequisites
