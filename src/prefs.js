@@ -131,8 +131,11 @@ const Prefs = new Lang.Class({
       if (this._icon_size_scale_button_pressed) {
         return;
       }
-      debug('Updating icon-size');
-      this._settings.set_int('icon-size', scale.get_value());
+      let size = scale.get_value();
+      if (size !== this._settings.get_int('icon-size')) {
+        debug('Updating icon-size');
+        this._settings.set_int('icon-size', size);
+      }
     }, SCALE_UPDATE_DELAY),
 
     icon_size_scale_button_press_event_cb: function () {
