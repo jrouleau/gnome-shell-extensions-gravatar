@@ -71,14 +71,15 @@ const Extension = new Lang.Class({
     // This fixes an issue where sometimes this._userManager is not
     // initialized when the extension loads
     if (this._userManager.get_icon_file() !== null) {
-      return cb();
+      cb();
+      return;
     }
     debug('Waiting for userManager to initialize...');
     this._userManagerLoop = setInterval(function () {
       debug('userManager initialized');
       clearInterval(this._userManagerLoop);
       this._userManagerLoop = null;
-      return cb();
+      cb();
     }.bind(this), 1000);
   },
 
