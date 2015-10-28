@@ -27,12 +27,12 @@ cd gnome-shell-extension-gravatar
 # install the local build dependencies
 npm install
 # run the build/install toolchain
-npm run install
+npm run install-extension
 ```
 
 #### Uninstall
 ```bash
-npm run uninstall
+npm run uninstall-extension
 ```
 
 ## Settings

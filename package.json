@@ -13,8 +13,8 @@
     "run-sequence": "^1.1.4"
   },
   "scripts": {
-    "install": "gulp install",
-    "uninstall": "gulp uninstall",
+    "install-extension": "gulp install",
+    "uninstall-extension": "gulp uninstall",
     "test": "gulp test"
   }
 }
