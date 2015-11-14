@@ -1,5 +1,5 @@
 {
-  "version": 0,
+  "version": 1,
   "uuid": "gravatar@jr.rlabs.io",
   "name": "Gravatar",
   "description": "Synchronize GNOME Shell user icon with Gravatar.",
