@@ -8,6 +8,7 @@
   "gettext-domain": "gnome-shell-extension-gravatar",
   "shell-version": [
     "3.16",
-    "3.18"
+    "3.18",
+    "3.20"
   ]
 }
