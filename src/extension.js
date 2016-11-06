@@ -89,6 +89,7 @@ const Extension = new Lang.Class({
         this._userLoop = null;
         log('Timeout waiting for user to initialize');
       }
+      return null;
     }.bind(this), 1000);
   },
 
