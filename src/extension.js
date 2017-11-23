@@ -136,7 +136,7 @@ const Extension = new Lang.Class({
 
       let fstream = icon.replace(null, false, Gio.FileCreateFlags.NONE, null);
       request.connect('got_chunk', function (msg, chunk) {
-        fstream.write(chunk.get_data(), null, chunk.length);
+        fstream.write(chunk.get_data(), null);
       });
 
       // download file
