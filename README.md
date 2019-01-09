@@ -37,7 +37,7 @@ npm run uninstall-extension
 ```
 
 ## Settings
-All settings can be configured from the `gnome-tweak-tool` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontent/widget is preferred!**
+All settings can be configured from the `gnome-tweak-tool` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontend/widget is preferred!**
 
 #### Email Address: _(default: `null`)_
 ```bash

@@ -242,5 +242,5 @@ gulp.task('default', function () {
     '  enable-debug          Enables debug mode\n' +
     '  disable-debug         Disables debug mode\n'
   );
-  /* eslint-esnable no-console, max-len */
+  /* eslint-enable no-console, max-len */
 });
