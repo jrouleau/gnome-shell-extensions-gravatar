@@ -14,7 +14,7 @@ A GNOME Shell extension to synchronize your user icon with Gravatar.
 If you wish to build and install the extension manually, you will need the following tools:
 * `git`
 * `npm` - Node Package Manager
-* `node` - Node.js (>= 4.0.0)
+* `node` - Node.js (>= 8.0.0)
 * `glib-compile-schemas`
 * `dconf` _(optional)_
 
