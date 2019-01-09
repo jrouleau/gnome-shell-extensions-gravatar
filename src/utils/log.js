@@ -1,20 +1,20 @@
 'use strict';
 
-const ExtensionUtils = imports.misc.extensionUtils;
+const { extensionUtils } = imports.misc;
 
-const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.lib.convenience;
+const me = extensionUtils.getCurrentExtension();
+const { convenience } = me.imports.lib;
 
-let settings = Convenience.getSettings();
+const settings = convenience.getSettings();
 
 /* exported log */
 function log(msg) {
-  global.log('[' + Me.uuid + '] ' + msg);
+  global.log(`[${me.uuid}] ${msg}`);
 }
 
 /* exported debug */
 function debug(msg) {
   if (settings.get_boolean('debug')) {
-    log('DEBUG: ' + msg);
+    log(`DEBUG: ${msg}`);
   }
 }

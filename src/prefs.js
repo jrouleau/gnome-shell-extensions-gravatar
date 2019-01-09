@@ -1,16 +1,16 @@
 'use strict';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
+const { lang } = imports;
+const { Gtk } = imports.gi;
+const { extensionUtils } = imports.misc;
 
-const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.lib.convenience;
-const { debug } = Me.imports.utils.log;
-const { isValidEmail } = Me.imports.utils.isValidEmail;
+const me = extensionUtils.getCurrentExtension();
+const { convenience } = me.imports.lib;
+const { debug } = me.imports.utils.log;
+const { isValidEmail } = me.imports.utils.isValidEmail;
 
 
-const Prefs = new Lang.Class({
+const Prefs = new lang.Class({
   Name: 'Gravatar.Prefs',
 
   /*
@@ -18,27 +18,27 @@ const Prefs = new Lang.Class({
    * Constructor                                 *
    ***********************************************
    */
-  _init: function () {
+  _init() {
     this._rtl = Gtk.Widget.get_default_direction() === Gtk.TextDirection.RTL;
-    this._settings = Convenience.getSettings();
+    this._settings = convenience.getSettings();
 
     // Initialize GtkBuilder
     this._builder = new Gtk.Builder();
-    this._builder.set_translation_domain(Me.metadata['gettext-domain']);
-    this._builder.add_from_file(Me.path + '/prefs.ui');
+    this._builder.set_translation_domain(me.metadata['gettext-domain']);
+    this._builder.add_from_file(`${me.path}/prefs.ui`);
 
     // Setup the prefs widget
     this._widget = this._builder.get_object('prefs_widget');
-    this._widget.connect('destroy', Lang.bind(this, function () {
+    this._widget.connect('destroy', () => {
       if (this._email !== this._settings.get_string('email')) {
-        debug('Updating email to "' + this._email + '"');
+        debug(`Updating email to "${this._email}"`);
         this._settings.set_string('email', this._email);
       }
-    }));
+    });
 
     // Setup the email settings entry
-    let email_obj = this._builder.get_object('email');
-    email_obj.connect('changed', Lang.bind(this, function (obj) {
+    const emailObj = this._builder.get_object('email');
+    emailObj.connect('changed', (obj) => {
       this._email = obj.get_text().trim();
 
       if (isValidEmail(this._email)) {
@@ -46,12 +46,12 @@ const Prefs = new Lang.Class({
       } else {
         obj.set_icon_from_icon_name(Gtk.PositionType.RIGHT, 'dialog-warning');
       }
-    }));
-    email_obj.set_text(this._settings.get_string('email'));
+    });
+    emailObj.set_text(this._settings.get_string('email'));
 
     // Set the version text
-    let version_obj = this._builder.get_object('version');
-    version_obj.set_text(Me.metadata.version.toString());
+    const versionObj = this._builder.get_object('version');
+    versionObj.set_text(me.metadata.version.toString());
   },
 
   /*
@@ -59,7 +59,7 @@ const Prefs = new Lang.Class({
    * Public Methods                             *
    ***********************************************
    */
-  getWidget: function () {
+  getWidget() {
     return this._widget;
   },
 
@@ -73,8 +73,8 @@ function init() {
 
 /* exported buildPrefsWidget */
 function buildPrefsWidget() {
-  let prefs = new Prefs();
-  let widget = prefs.getWidget();
+  const prefs = new Prefs();
+  const widget = prefs.getWidget();
   widget.show_all();
   return widget;
 }

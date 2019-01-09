@@ -1,0 +1,16 @@
+{
+  "env":  {
+    "node": false,
+  },
+  "globals": {
+    "imports": false,
+    "global": false,
+  },
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "strict": ["error", "global"],
+  },
+}

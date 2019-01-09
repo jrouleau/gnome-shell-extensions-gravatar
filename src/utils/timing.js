@@ -1,10 +1,10 @@
 'use strict';
 
-const GLib = imports.gi.GLib;
+const { GLib } = imports.gi;
 
 /* exported setTimeout */
 function setTimeout(func, millis) {
-  return GLib.timeout_add(GLib.PRIORITY_DEFAULT, millis, function () {
+  return GLib.timeout_add(GLib.PRIORITY_DEFAULT, millis, () => {
     func();
     // Don't repeat
     return false;
@@ -18,7 +18,7 @@ function clearTimeout(id) {
 
 /* exported setInterval */
 function setInterval(func, millis) {
-  return GLib.timeout_add(GLib.PRIORITY_DEFAULT, millis, function () {
+  return GLib.timeout_add(GLib.PRIORITY_DEFAULT, millis, () => {
     func();
     // Repeat
     return true;
@@ -33,13 +33,12 @@ function clearInterval(id) {
 /* exported debounce */
 function debounce(func, millis) {
   let timer = null;
-  return function () {
-    let context = this;
-    let args = arguments;
+  return function debounceInner(...args) {
+    const context = this;
     if (timer !== null) {
       clearTimeout(timer);
     }
-    timer = setTimeout(function () {
+    timer = setTimeout(() => {
       func.apply(context, args);
       timer = null;
     }, millis);

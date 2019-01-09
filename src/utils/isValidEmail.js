@@ -1,6 +1,6 @@
 'use strict';
 
-const GLib = imports.gi.GLib;
+const { GLib } = imports.gi;
 
 /* exported isValidEmail */
 function isValidEmail(email) {
@@ -8,6 +8,6 @@ function isValidEmail(email) {
     '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$',
     email,
     GLib.RegexCompileFlags.CASELESS,
-    GLib.RegexMatchFlags.ANCHORED + GLib.RegexMatchFlags.NOTEMPTY
+    GLib.RegexMatchFlags.ANCHORED + GLib.RegexMatchFlags.NOTEMPTY,
   );
 }
