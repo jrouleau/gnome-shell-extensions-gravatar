@@ -10,7 +10,6 @@
     "gulp-eslint-threshold": "^0.1.1",
     "gulp-json-editor": "^2.2.1",
     "gulp-shell": "^0.6.5",
-    "gulp-symlink": "^2.1.4",
     "gulp-zip": "^4.2.0",
     "osenv": "^0.1.3"
   },

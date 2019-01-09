@@ -8,7 +8,6 @@ const eslint = require('gulp-eslint');
 const threshold = require('gulp-eslint-threshold');
 const jsonEditor = require('gulp-json-editor');
 const shell = require('gulp-shell');
-const symlink = require('gulp-symlink');
 const zip = require('gulp-zip');
 
 const metadata = require('./src/metadata.json');
@@ -101,7 +100,7 @@ gulp.task('reset-prefs', shell.task([
 
 gulp.task('uninstall', cb => del([paths.install], { force: true }, cb));
 
-gulp.task('install-link', gulp.series('uninstall', 'build', () => gulp.src(['build']).pipe(symlink(paths.install))));
+gulp.task('install-link', gulp.series('uninstall', 'build', () => gulp.src(['build/']).pipe(gulp.symlink(paths.install))));
 
 gulp.task('install', gulp.series('uninstall', 'build', () => gulp.src(['build/**/*']).pipe(gulp.dest(paths.install))));
 
