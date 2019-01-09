@@ -1,19 +1,10 @@
 {
-  "version": 4,
+  "version": 5,
   "uuid": "gravatar@jr.rlabs.io",
   "name": "Gravatar",
   "description": "Synchronize GNOME Shell user icon with Gravatar.",
   "url": "https://github.com/jrouleau/gnome-shell-extension-gravatar",
   "settings-schema": "org.gnome.shell.extensions.gravatar",
   "gettext-domain": "gnome-shell-extension-gravatar",
-  "shell-version": [
-    "3.16",
-    "3.18",
-    "3.20",
-    "3.22",
-    "3.24",
-    "3.26",
-    "3.28",
-    "3.30"
-  ]
+  "shell-version": ["3.16", "3.18", "3.20", "3.22", "3.24", "3.26", "3.28", "3.30"]
 }
