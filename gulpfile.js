@@ -6,7 +6,6 @@ var del = require('del');
 var execSync = require('child_process').execSync;
 var osenv = require('osenv');
 var path = require('path');
-var runSequence = require('run-sequence');
 
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
@@ -104,26 +103,20 @@ gulp.task('schemas', shell.task([
   'glib-compile-schemas --strict --targetdir build/schemas src/schemas/',
 ]));
 
-gulp.task('build', function (cb) {
-  runSequence(
-    'clean',
-    [
-      'metadata',
-      'schemas',
-      'copy',
-      'copy-lib',
-      'copy-license',
-    ],
-    cb
-  );
-});
+gulp.task('build', gulp.series('clean', gulp.parallel(
+  'metadata',
+  'schemas',
+  'copy',
+  'copy-lib',
+  'copy-license'
+)));
 
-gulp.task('watch', [ 'build' ], function () {
+gulp.task('watch', gulp.series('build', function () {
   gulp.watch(paths.src, [ 'copy' ]);
   gulp.watch(paths.lib, [ 'copy-lib' ]);
   gulp.watch(paths.metadata, [ 'metadata' ]);
   gulp.watch(paths.schemas, [ 'schemas' ]);
-});
+}));
 
 gulp.task('reset-prefs', shell.task([
   'dconf reset -f /org/gnome/shell/extensions/gravatar/',
@@ -133,15 +126,15 @@ gulp.task('uninstall', function (cb) {
   return del([ paths.install ], { force: true }, cb);
 });
 
-gulp.task('install-link', [ 'uninstall', 'build' ], function () {
+gulp.task('install-link', gulp.series('uninstall', 'build', function () {
   return gulp.src([ 'build' ])
     .pipe(symlink(paths.install));
-});
+}));
 
-gulp.task('install', [ 'uninstall', 'build' ], function () {
+gulp.task('install', gulp.series('uninstall', 'build', function () {
   return gulp.src([ 'build/**/*' ])
     .pipe(gulp.dest(paths.install));
-});
+}));
 
 gulp.task('require-clean-wd', function (cb) {
   var count = execSync('git status --porcelain | wc -l').toString().replace(/\n$/, '');
@@ -174,26 +167,16 @@ gulp.task('push', function (cb) {
   return cb();
 });
 
-gulp.task('dist', [ 'lint' ], function (cb) {
-  runSequence('build', function () {
-    var zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
-    var stream = gulp.src([ 'build/**/*' ])
-      .pipe(zip(zipFile))
-      .pipe(gulp.dest('dist'));
-    stream.on('error', cb);
-    stream.on('end', cb);
-  });
-});
+gulp.task('dist', gulp.series('lint', 'build', function (cb) {
+  var zipFile = metadata.uuid + '-' + getVersion(true) + '.zip';
+  var stream = gulp.src([ 'build/**/*' ])
+    .pipe(zip(zipFile))
+    .pipe(gulp.dest('dist'));
+  stream.on('error', cb);
+  stream.on('end', cb);
+}));
 
-gulp.task('release', [ 'lint' ], function (cb) {
-  runSequence(
-    'require-clean-wd',
-    'bump',
-    'push',
-    'dist',
-    cb
-  );
-});
+gulp.task('release', gulp.series('lint', 'require-clean-wd', 'bump', 'push', 'dist'));
 
 gulp.task('enable-debug', shell.task([
   'dconf write /org/gnome/shell/extensions/gravatar/debug true',
@@ -203,14 +186,9 @@ gulp.task('disable-debug', shell.task([
   'dconf write /org/gnome/shell/extensions/gravatar/debug false',
 ]));
 
-gulp.task('test', function (cb) {
-  runSequence(
-    'lint',
-    cb
-  );
-});
+gulp.task('test', gulp.series('lint'));
 
-gulp.task('default', function () {
+gulp.task('default', function (cb) {
   /* eslint-disable no-console, max-len */
   console.log(
     '\n' +
@@ -243,4 +221,5 @@ gulp.task('default', function () {
     '  disable-debug         Disables debug mode\n'
   );
   /* eslint-enable no-console, max-len */
+  return cb();
 });
