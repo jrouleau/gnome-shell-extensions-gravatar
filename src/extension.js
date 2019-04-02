@@ -11,7 +11,6 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.lib.convenience;
 const { md5 } = Me.imports.lib.md5;
 const { log, debug } = Me.imports.utils.log;
-const { isValidEmail } = Me.imports.utils.isValidEmail;
 const { setInterval, clearInterval } = Me.imports.utils.timing;
 
 
@@ -100,10 +99,6 @@ const Extension = new Lang.Class({
 
   _getHash: function () {
     let email = this._settings.get_string('email').toLowerCase();
-    if (!isValidEmail(email)) {
-      log('Unable to validate email "' + email + '"');
-      return null;
-    }
     debug('Hashing "' + email + '"');
     return md5(email);
   },
