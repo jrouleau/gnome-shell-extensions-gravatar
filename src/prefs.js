@@ -6,7 +6,7 @@ const { extensionUtils } = imports.misc;
 
 const me = extensionUtils.getCurrentExtension();
 const { convenience } = me.imports.lib;
-const { debug } = me.imports.utils.log;
+const { debug } = me.imports.utils.logger;
 const { isValidEmail } = me.imports.utils.isValidEmail;
 
 

@@ -12,7 +12,7 @@ const { extensionUtils } = imports.misc;
 const me = extensionUtils.getCurrentExtension();
 const { convenience } = me.imports.lib;
 const { md5 } = me.imports.lib.md5;
-const { log, debug } = me.imports.utils.log;
+const { log, debug } = me.imports.utils.logger;
 const { setInterval, clearInterval } = me.imports.utils.timing;
 
 
