@@ -6,5 +6,5 @@
   "url": "https://github.com/jrouleau/gnome-shell-extension-gravatar",
   "settings-schema": "org.gnome.shell.extensions.gravatar",
   "gettext-domain": "gnome-shell-extension-gravatar",
-  "shell-version": ["3.16", "3.18", "3.20", "3.22", "3.24", "3.26", "3.28", "3.30", "3.32"]
+  "shell-version": ["3.32"]
 }
