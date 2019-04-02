@@ -1,107 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface domain="gnome-shell-extension-gravatar">
-  <requires lib="gtk+" version="3.16"/>
-  <object class="GtkAdjustment" id="icon_size_adjustment">
-    <property name="step_increment">1</property>
-    <property name="page_increment">16</property>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkImage" id="help_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-help</property>
   </object>
-  <object class="GtkNotebook" id="prefs_notebook">
+  <object class="GtkImage" id="home_icon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-home</property>
+  </object>
+  <object class="GtkNotebook" id="prefs_widget">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="margin_left">6</property>
-    <property name="margin_right">6</property>
-    <property name="margin_top">6</property>
-    <property name="margin_bottom">6</property>
+    <property name="show_border">False</property>
+    <property name="scrollable">True</property>
     <child>
-      <object class="GtkBox" id="settings">
+      <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">12</property>
-        <property name="margin_right">12</property>
-        <property name="margin_top">12</property>
-        <property name="margin_bottom">12</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
+        <property name="border_width">10</property>
+        <property name="row_spacing">5</property>
+        <property name="column_spacing">5</property>
         <child>
-          <object class="GtkFrame" id="gravatar_frame">
+          <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkListBox" id="gravatar_listbox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="selection_mode">none</property>
-                <child>
-                  <object class="GtkListBoxRow" id="email_listboxrow">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="activatable">False</property>
-                    <property name="selectable">False</property>
-                    <child>
-                      <object class="GtkGrid" id="email_grid">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="column_spacing">32</property>
-                        <child>
-                          <object class="GtkLabel" id="email_label">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Gravatar Email Address</property>
-                            <property name="xalign">0</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="email_entry">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hexpand">True</property>
-                            <property name="placeholder_text" translatable="yes">user@example.com</property>
-                            <property name="input_purpose">email</property>
-                            <signal name="activate" handler="email_entry_activate_cb" swapped="no"/>
-                            <signal name="changed" handler="email_entry_changed_cb" swapped="no"/>
-                            <signal name="focus-out-event" handler="email_entry_activate_cb" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child type="label_item">
-              <placeholder/>
-            </child>
+            <property name="halign">start</property>
+            <property name="hexpand">True</property>
+            <property name="label" translatable="yes">Gravatar Email Address</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="email">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">32</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="secondary_icon_tooltip_text" translatable="yes">Invalid email address</property>
+            <property name="placeholder_text" translatable="yes">user@example.com</property>
+            <property name="input_purpose">email</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
           </packing>
         </child>
       </object>
-      <packing>
-        <property name="tab_expand">True</property>
-      </packing>
     </child>
     <child type="tab">
-      <object class="GtkLabel" id="settings_label">
+      <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Settings</property>
@@ -111,94 +67,20 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="about">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">12</property>
-        <property name="margin_right">12</property>
-        <property name="margin_top">12</property>
-        <property name="margin_bottom">12</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
+        <property name="border_width">10</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
+        <property name="spacing">4</property>
         <child>
-          <object class="GtkBox" id="about_info_box">
+          <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">4</property>
-            <child>
-              <object class="GtkLabel" id="extension_name">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="ypad">4</property>
-                <property name="label" translatable="yes">&lt;span size="xx-large"&gt;&lt;b&gt;Gravatar&lt;/b&gt;&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="version_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <child>
-                  <object class="GtkLabel" id="version_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="label" translatable="yes">Version: </property>
-                    <property name="use_markup">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="version">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="label" translatable="yes">...</property>
-                    <property name="use_markup">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="description">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Synchronizes your user icon with Gravatar.</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-                <property name="wrap_mode">word-char</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
+            <property name="margin_bottom">5</property>
+            <property name="label" translatable="yes">&lt;span size="xx-large"&gt;&lt;b&gt;Gravatar&lt;/b&gt;&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="justify">center</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -207,30 +89,130 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="license">
+          <object class="GtkBox" id="version_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">&lt;span size="small"&gt;This software is provided "as is", without warranty of any kind.
-See &lt;a href="https://github.com/jrouleau/gnome-shell-extension-gravatar/blob/master/LICENSE"&gt;The MIT License (MIT)&lt;/a&gt; for details.&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+            <property name="halign">center</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Version: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="version">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">N/A</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Synchronizes your user icon with Gravatar.</property>
             <property name="justify">center</property>
             <property name="wrap">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="margin_top">10</property>
+            <property name="orientation">vertical</property>
+            <property name="layout_style">start</property>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="label"> github.com</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">home_icon</property>
+                <property name="relief">none</property>
+                <property name="xalign">0</property>
+                <property name="always_show_image">True</property>
+                <property name="uri">https://github.com/jrouleau/gnome-shell-extension-gravatar</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="label"> Report a Bug</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">help_icon</property>
+                <property name="relief">none</property>
+                <property name="xalign">0</property>
+                <property name="always_show_image">True</property>
+                <property name="uri">https://github.com/jrouleau/gnome-shell-extension-gravatar/issues</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">20</property>
+            <property name="label" translatable="yes">&lt;span size="small"&gt;This software is provided "as is", without warranty of any kind.
+See &lt;a href="https://github.com/jrouleau/gnome-shell-extension-gravatar/blob/master/LICENSE"&gt;The MIT License (MIT)&lt;/a&gt; for details.&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="justify">center</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="pack_type">end</property>
-            <property name="position">1</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>
       <packing>
         <property name="position">1</property>
-        <property name="tab_expand">True</property>
       </packing>
     </child>
     <child type="tab">
-      <object class="GtkLabel" id="about_label">
+      <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">About</property>
