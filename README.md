@@ -52,9 +52,9 @@ gnome-shell-extension-prefs gravatar@gnome-shell-extensions.rouleau.io
 ```
 
 ## Settings
-All settings can be configured from the `gnome-tweaks` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontend/widget is preferred!**
+Settings can be configured from the `gnome-tweaks` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. Settings marked with `*` can only be changed by using `dconf`.
 
-#### Debug Mode: _(default: `false`)_
+#### *Debug Mode: _(default: `false`)_
 ```bash
 dconf write /org/gnome/shell/extensions/gravatar/debug "'<BOOL>'"
 ```
@@ -64,7 +64,7 @@ dconf write /org/gnome/shell/extensions/gravatar/debug "'<BOOL>'"
 dconf write /org/gnome/shell/extensions/gravatar/email "'<EMAIL>'"
 ```
 
-#### Icon Size: _(default: `192`)_
+#### *Icon Size: _(default: `192`)_
 * **1 - 2048 pixel square** _(See: [gravatar.com](https://en.gravatar.com/site/implement/images/#size))_
 
 ```bash
