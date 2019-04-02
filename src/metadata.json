@@ -1,6 +1,6 @@
 {
   "version": 6,
-  "uuid": "gravatar@jr.rlabs.io",
+  "uuid": "gravatar@gnome-shell-extensions.rouleau.io",
   "name": "Gravatar",
   "description": "Synchronize GNOME Shell user icon with Gravatar.",
   "url": "https://github.com/jrouleau/gnome-shell-extensions-gravatar",
