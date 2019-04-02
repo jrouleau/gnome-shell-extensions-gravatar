@@ -39,6 +39,11 @@ npm run uninstall-extension
 ## Settings
 All settings can be configured from the `gnome-tweaks` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontend/widget is preferred!**
 
+#### Debug Mode: _(default: `false`)_
+```bash
+dconf write /org/gnome/shell/extensions/gravatar/debug "'<BOOL>'"
+```
+
 #### Email Address: _(default: `null`)_
 ```bash
 dconf write /org/gnome/shell/extensions/gravatar/email "'<EMAIL>'"
