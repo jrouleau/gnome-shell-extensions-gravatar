@@ -10,7 +10,6 @@ A GNOME Shell extension to synchronize your user icon with Gravatar.
 * `gnome-shell-extension-prefs` _(optional)_
 
 ## Installation
-
 If you wish to build and install the extension manually, you will need the following tools:
 * `git`
 * `npm` - Node Package Manager
@@ -34,6 +33,22 @@ npm run install-extension
 #### Uninstall
 ```bash
 npm run uninstall-extension
+```
+
+## Development
+You can run the extension in development mode with `npm run dev`. This will install the extension as a symlink to your development build dir and automatically rebuild when source files are changed.
+
+To reload the extension you must reload GNOME with `Alt + F2, r, [ENTER]`.
+
+#### Logs
+##### Extension
+```bash
+journalctl /usr/bin/gnome-shell -f
+```
+
+##### Prefs Widget
+```bash
+gnome-shell-extension-prefs gravatar@gnome-shell-extensions.rouleau.io
 ```
 
 ## Settings
