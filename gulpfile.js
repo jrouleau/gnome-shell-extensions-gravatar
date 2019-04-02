@@ -28,6 +28,11 @@ const paths = {
     '.local/share/gnome-shell/extensions',
     metadata.uuid,
   ),
+  oldInstall: path.join(
+    osenv.home(),
+    '.local/share/gnome-shell/extensions',
+    'gravatar@jr.rlabs.io',
+  ),
 };
 
 function getVersion(rawTag) {
@@ -98,7 +103,7 @@ gulp.task('reset-prefs', shell.task([
   'dconf reset -f /org/gnome/shell/extensions/gravatar/',
 ]));
 
-gulp.task('uninstall', cb => del([paths.install], { force: true }, cb));
+gulp.task('uninstall', cb => del([paths.oldInstall, paths.install], { force: true }, cb));
 
 gulp.task('install-link', gulp.series('uninstall', 'build', () => gulp.src(['build/']).pipe(gulp.symlink(paths.install))));
 
