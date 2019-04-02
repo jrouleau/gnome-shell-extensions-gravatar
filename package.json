@@ -18,7 +18,7 @@
   },
   "scripts": {
     "install-extension": "gulp install",
-    "uninstall-extension": "gulp uninstall",
+    "uninstall-extension": "gulp uninstall && gulp reset-prefs",
     "test": "gulp test"
   }
 }
