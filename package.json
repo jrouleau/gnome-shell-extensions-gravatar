@@ -1,7 +1,7 @@
 {
   "private": true,
   "devDependencies": {
-    "del": "^3.0.0",
+    "del": "^4.1.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
@@ -9,7 +9,7 @@
     "gulp-eslint": "^5.0.0",
     "gulp-eslint-threshold": "^0.1.1",
     "gulp-json-editor": "^2.2.1",
-    "gulp-shell": "^0.6.5",
+    "gulp-shell": "^0.7.0",
     "gulp-zip": "^4.2.0",
     "osenv": "^0.1.3"
   },
