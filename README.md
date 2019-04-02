@@ -35,22 +35,6 @@ npm run install-extension
 npm run uninstall-extension
 ```
 
-## Development
-You can run the extension in development mode with `npm run dev`. This will install the extension as a symlink to your development build dir and automatically rebuild when source files are changed.
-
-To reload the extension you must reload GNOME with `Alt + F2, r, [ENTER]`.
-
-#### Logs
-##### Extension
-```bash
-journalctl /usr/bin/gnome-shell -f
-```
-
-##### Prefs Widget
-```bash
-gnome-shell-extension-prefs gravatar@gnome-shell-extensions.rouleau.io
-```
-
 ## Settings
 Settings can be configured from the `gnome-tweaks` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. Settings marked with `*` can only be changed by using `dconf`.
 
@@ -73,6 +57,22 @@ dconf write /org/gnome/shell/extensions/gravatar/icon-size <SIZE>
 
 ## Bug Reporting
 Bugs should be reported via the [GitHub Issue Tracker](https://github.com/jrouleau/gnome-shell-extensions-gravatar/issues)
+
+## Development
+You can run the extension in development mode with `npm run dev`. This will install the extension as a symlink to your development build dir and automatically rebuild when source files are changed.
+
+To reload the extension you must reload GNOME with `Alt + F2, r, [ENTER]`.
+
+#### Logs
+##### Extension
+```bash
+journalctl /usr/bin/gnome-shell -f
+```
+
+##### Prefs Widget
+```bash
+gnome-shell-extension-prefs gravatar@gnome-shell-extensions.rouleau.io
+```
 
 ## License
 The MIT License (MIT)
