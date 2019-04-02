@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.22.1 -->
-<interface domain="gnome-shell-extension-gravatar">
+<interface domain="gnome-shell-extensions-gravatar">
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkImage" id="help_icon">
     <property name="visible">True</property>
@@ -156,7 +156,7 @@
                 <property name="relief">none</property>
                 <property name="xalign">0</property>
                 <property name="always_show_image">True</property>
-                <property name="uri">https://github.com/jrouleau/gnome-shell-extension-gravatar</property>
+                <property name="uri">https://github.com/jrouleau/gnome-shell-extensions-gravatar</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -174,7 +174,7 @@
                 <property name="relief">none</property>
                 <property name="xalign">0</property>
                 <property name="always_show_image">True</property>
-                <property name="uri">https://github.com/jrouleau/gnome-shell-extension-gravatar/issues</property>
+                <property name="uri">https://github.com/jrouleau/gnome-shell-extensions-gravatar/issues</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -195,7 +195,7 @@
             <property name="can_focus">False</property>
             <property name="margin_top">20</property>
             <property name="label" translatable="yes">&lt;span size="small"&gt;This software is provided "as is", without warranty of any kind.
-See &lt;a href="https://github.com/jrouleau/gnome-shell-extension-gravatar/blob/master/LICENSE"&gt;The MIT License (MIT)&lt;/a&gt; for details.&lt;/span&gt;</property>
+See &lt;a href="https://github.com/jrouleau/gnome-shell-extensions-gravatar/blob/master/LICENSE"&gt;The MIT License (MIT)&lt;/a&gt; for details.&lt;/span&gt;</property>
             <property name="use_markup">True</property>
             <property name="justify">center</property>
           </object>

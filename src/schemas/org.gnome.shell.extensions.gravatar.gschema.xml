@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="gnome-shell-extension-gravatar">
+<schemalist gettext-domain="gnome-shell-extensions-gravatar">
   <schema id="org.gnome.shell.extensions.gravatar" path="/org/gnome/shell/extensions/gravatar/">
     <key name="debug" type="b">
       <default>false</default>
