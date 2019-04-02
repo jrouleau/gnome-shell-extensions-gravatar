@@ -6,7 +6,7 @@ A GNOME Shell extension to synchronize your user icon with Gravatar.
 ## Prerequisites
 * `gnome-shell`
 * `dconf` _(optional)_
-* `gnome-tweak-tool` _(optional)_
+* `gnome-tweaks` _(optional)_
 * `gnome-shell-extension-prefs` _(optional)_
 
 ## Installation
@@ -37,7 +37,7 @@ npm run uninstall-extension
 ```
 
 ## Settings
-All settings can be configured from the `gnome-tweak-tool` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontend/widget is preferred!**
+All settings can be configured from the `gnome-tweaks` or `gnome-shell-extension-prefs` tools or from the command line via `dconf`. **Using the frontend/widget is preferred!**
 
 #### Email Address: _(default: `null`)_
 ```bash
