@@ -75,6 +75,5 @@ function init() {
 function buildPrefsWidget() {
   const prefs = new Prefs();
   const widget = prefs.getWidget();
-  widget.show_all();
   return widget;
 }
